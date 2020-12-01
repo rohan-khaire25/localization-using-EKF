@@ -6,7 +6,8 @@ function [h, H_x] = measurementFunction(x, m)
 % Map entry and state are defined according to "Introduction to Autonomous Mobile Robots" pp. 337
 
 
-h = [m(1) - x(3); m(2) - (x(1)*cos(m(1))+x(2)*sin(m(1)))];
+h = [m(1)-x(3); m(2)-(x(1)*cos(m(1))+x(2)*sin(m(1)))]; 
+    
 H_x = [0 0 -1; -cos(m(1)) -sin(m(1)) 0];
 
 [h(1), h(2), isRNegated] = normalizeLineParameters(h(1), h(2));

@@ -9,13 +9,19 @@ if size(Z,2) == 0
     P_posteriori = P_priori;
     return;
 end
-[f, F_x, F_u] = transitionFunction(x,u, b);
-[v, H, R] = associateMeasurements(x, P, Z, R, M, g);
-[h,Hx] = measurementFunction(x,M);
-%p = [h(1); h(2)] - [Z(1,i); Z(2,i)];
-O = Hx*P*Hx' + R %R(:,:,1);
-K = P*Hx'*inv(O);
-x_posteriori = f+K*v*0.01;
-x_posteriori = x_posteriori(:,1);
-P_posteriori = P-K*O*K';
+[x_priori, F_x, F_u] = transitionFunction(x, u, b);
+Q = [k*abs(u(1,1)) 0; 0 k*abs(u(2,1))];
+P_priori = F_x * P * F_x' + F_u * Q * F_u';
 
+[v, H, R] = associateMeasurements(x_priori, P_priori, Z, R, M, g);
+
+y = reshape(v, [], 1);
+H = reshape(permute(H, [1,3,2]), [], length(x));
+R = blockDiagonal(R);
+
+% update state estimates (pp. 335)
+S = H * P_priori * H' + R;
+K = P_priori * H' * inv(S);
+
+P_posteriori = (eye(3) - K*H)*P_priori;
+x_posteriori = x_priori + K * y;

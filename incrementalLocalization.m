@@ -6,6 +6,6 @@ function [x_posterori, P_posterori] = incrementalLocalization(x, P, u, S, M, par
 
 C_TR = diag([repmat(0.1^2, 1, size(S, 2)) repmat(0.1^2, 1, size(S, 2))]);
 
-R = 0.1*eye(2,2);
+R = 0.1000*eye(2,2);
 
 [x_posterori, P_posterori] = filterStep(x, P, u, S, R, M, k, g, b);
