@@ -10,4 +10,4 @@ Implement an extended kalman Filter(EKF) for localization of a mobile robot and 
 * Run the **vrepSimulation.m** file located in ``\code\Ex4_LineEKF\vrep``.
 
 ### Result ilustration ###
-!(result)[images/Matlabplot.png
+![result](images/Matlabplot.png)
